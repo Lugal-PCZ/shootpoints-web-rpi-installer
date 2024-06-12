@@ -69,7 +69,8 @@ sudo usermod -a -G dialout shootpoints
 
 # Install ShootPoints and its dependencies
 git clone --recurse-submodules https://github.com/Lugal-PCZ/ShootPoints-Web.git
-cd ShootPoints-Web/shootpoints-web-api
+git submodule foreach git switch main
+cd ShootPoints-Web/api
 sudo pip3 install -r requirements.txt
 
 
