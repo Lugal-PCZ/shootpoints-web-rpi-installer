@@ -82,7 +82,7 @@ After=network-online.target
 
 [Service]
 ExecStart=uvicorn api:app --host 0.0.0.0
-WorkingDirectory=/home/shootpoints/ShootPoints-Web/shootpoints-web-api
+WorkingDirectory=/home/shootpoints/ShootPoints-Web/api
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
