@@ -69,11 +69,11 @@ sudo usermod -a -G dialout shootpoints
 
 # Install ShootPoints and its dependencies
 echo 'export PATH=/home/shootpoints/.local/bin:$PATH' >> /home/shootpoints/.bashrc
-python3 -m pip config set global.break-system-packages true
 git clone --recurse-submodules https://github.com/Lugal-PCZ/ShootPoints-Web.git
+cd ShootPoints-Web
 git submodule foreach git switch main
-cd ShootPoints-Web/api
-sudo pip3 install -r requirements.txt
+python3 -m pip config set global.break-system-packages true
+pip3 install -r api/requirements.txt
 
 
 # Set ShootPoints to start automatically on boot
