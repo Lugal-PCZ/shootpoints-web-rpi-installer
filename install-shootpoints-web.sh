@@ -53,7 +53,7 @@ sudo systemctl start hostapd
 
 
 # Enable external LED for activity indicator
-echo 'cat << EOF >> /boot/config.txt
+echo 'cat << EOF >> /boot/firmware/config.txt
 dtparam=act_led_trigger=default-on
 dtparam=act_led_gpio=26
 EOF' | sudo -s
