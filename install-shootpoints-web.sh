@@ -68,6 +68,8 @@ sudo usermod -a -G dialout shootpoints
 
 
 # Install ShootPoints and its dependencies
+echo 'export PATH=/home/shootpoints/.local/bin:$PATH' >> /home/shootpoints/.bashrc
+python3 -m pip config set global.break-system-packages true
 git clone --recurse-submodules https://github.com/Lugal-PCZ/ShootPoints-Web.git
 git submodule foreach git switch main
 cd ShootPoints-Web/api
@@ -81,7 +83,7 @@ Description=ShootPoints Web Service
 After=network-online.target
 
 [Service]
-ExecStart=uvicorn api:app --host 0.0.0.0
+ExecStart=/home/shootpoints/.local/bin/uvicorn api:app --host 0.0.0.0
 WorkingDirectory=/home/shootpoints/ShootPoints-Web/api
 StandardOutput=inherit
 StandardError=inherit
