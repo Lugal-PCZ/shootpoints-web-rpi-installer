@@ -71,10 +71,19 @@ sudo usermod -a -G dialout shootpoints
 echo 'export PATH=/home/shootpoints/.local/bin:$PATH' >> /home/shootpoints/.bashrc
 export PATH=/home/shootpoints/.local/bin:$PATH
 git clone --recurse-submodules https://github.com/Lugal-PCZ/ShootPoints-Web.git
-cd ShootPoints-Web
+cd home/shootpoints/ShootPoints-Web
 git submodule foreach git switch main
 python3 -m pip config set global.break-system-packages true
 pip3 install -r api/requirements.txt
+
+
+# Create updater script
+echo 'cd /home/shootpoints/ShootPoints-Web
+git pull --recurse-submodules
+git submodule foreach git switch main
+git submodule foreach git pull
+sudo systemctl restart shootpoints' > /home/shootpoints/update-shootpoints.sh
+chmod +x /home/shootpoints/update-shootpoints.sh
 
 
 # Set ShootPoints to start automatically on boot
