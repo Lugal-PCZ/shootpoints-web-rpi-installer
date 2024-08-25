@@ -11,7 +11,7 @@ fi
 # Create a local WiFi network named "shootpoints"
 sudo raspi-config nonint do_wifi_country US
 sudo apt-get update
-sudo apt-get install hostapd dhcpcd dnsmasq
+sudo apt-get install hostapd dnsmasq
 
 echo 'cat << EOF > /etc/hostapd/hostapd.conf
 country_code=US
@@ -74,7 +74,7 @@ sudo usermod -a -G dialout shootpoints
 echo 'export PATH=/home/shootpoints/.local/bin:$PATH' >> /home/shootpoints/.bashrc
 export PATH=/home/shootpoints/.local/bin:$PATH
 git clone --recurse-submodules https://github.com/Lugal-PCZ/ShootPoints-Web.git
-cd home/shootpoints/ShootPoints-Web
+cd /home/shootpoints/ShootPoints-Web
 git submodule foreach git switch main
 python3 -m pip config set global.break-system-packages true
 pip3 install -r api/requirements.txt
