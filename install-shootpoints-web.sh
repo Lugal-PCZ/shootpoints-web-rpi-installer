@@ -113,5 +113,6 @@ chmod +x /home/shootpoints/update-shootpoints.sh
 
 # Indicate that the script is finished running
 echo ">>> ShootPoints-Web is installed. <<<"
-echo ">>> Connect to the shootpoints WiFi network <<<"
-echo ">>> and open a browser to http://shootpoints.local:8000 <<<"
+echo ">>> Restart the Raspberry Pi with “sudo reboot” then in a minute or so:"
+echo ">>>  - Connect to the shootpoints WiFi network <<<"
+echo ">>>  - Open a browser to http://shootpoints.local:8000 <<<"
