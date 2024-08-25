@@ -10,7 +10,9 @@ fi
 
 # Create a local WiFi network named "shootpoints"
 sudo raspi-config nonint do_wifi_country US
-sudo apt-get install hostapd dnsmasq
+sudo apt-get update
+sudo apt-get install hostapd dhcpcd dnsmasq
+
 echo 'cat << EOF > /etc/hostapd/hostapd.conf
 country_code=US
 interface=wlan0
@@ -46,6 +48,7 @@ addn-hosts=/etc/dnsmasq.hosts
 EOF' | sudo -s
 
 echo 'echo '192.168.111.1 shootpoints' > /etc/dnsmasq.hosts' | sudo -s
+
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo sed -rie 's/(ExecStart.*)/\1\nExecStartPre=\/usr\/bin\/sleep 15/g' /lib/systemd/system/hostapd.service
@@ -77,15 +80,6 @@ python3 -m pip config set global.break-system-packages true
 pip3 install -r api/requirements.txt
 
 
-# Create updater script
-echo 'cd /home/shootpoints/ShootPoints-Web
-git pull --recurse-submodules
-git submodule foreach git switch main
-git submodule foreach git pull
-sudo systemctl restart shootpoints' > /home/shootpoints/update-shootpoints.sh
-chmod +x /home/shootpoints/update-shootpoints.sh
-
-
 # Set ShootPoints to start automatically on boot
 echo 'cat << EOF > /etc/systemd/system/shootpoints.service
 [Unit]
@@ -106,6 +100,15 @@ EOF' | sudo -s
 
 sudo systemctl enable shootpoints
 sudo systemctl start shootpoints
+
+
+# Create ShootPoints-Web updater script
+echo 'cd /home/shootpoints/ShootPoints-Web
+git pull --recurse-submodules
+git submodule foreach git switch main
+git submodule foreach git pull
+sudo systemctl restart shootpoints' > /home/shootpoints/update-shootpoints.sh
+chmod +x /home/shootpoints/update-shootpoints.sh
 
 
 # Indicate that the script is finished running
