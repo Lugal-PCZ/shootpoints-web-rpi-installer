@@ -11,7 +11,7 @@ fi
 # Create a local WiFi network named "shootpoints"
 sudo raspi-config nonint do_wifi_country US
 sudo apt-get update
-sudo apt-get install hostapd dnsmasq
+sudo apt-get install -y hostapd dnsmasq
 
 echo 'cat << EOF > /etc/hostapd/hostapd.conf
 country_code=US
@@ -49,9 +49,9 @@ EOF' | sudo -s
 
 echo 'echo '192.168.111.1 shootpoints' > /etc/dnsmasq.hosts' | sudo -s
 
+sudo sed -rie 's/(ExecStart.*)/\1\nExecStartPre=\/usr\/bin\/sleep 15/g' /lib/systemd/system/hostapd.service
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
-sudo sed -rie 's/(ExecStart.*)/\1\nExecStartPre=\/usr\/bin\/sleep 15/g' /lib/systemd/system/hostapd.service
 sudo systemctl start hostapd
 
 
