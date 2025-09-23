@@ -52,6 +52,16 @@ EOF' | sudo -s
 
 echo 'echo '192.168.111.1 shootpoints' > /etc/dnsmasq.hosts' | sudo -s
 
+echo 'cat << EOF > /etc/network/interfaces
+auto wlan0
+iface wlan0 inet static
+  address 192.168.111.1
+  netmask 255.255.255.0
+  gateway 192.168.111.1
+  broadcast 192.168.111.255
+  dns-nameservers 192.168.111.1
+EOF' | sudo -s
+
 sudo sed -rie 's/(ExecStart.*)/\1\nExecStartPre=\/usr\/bin\/sleep 15/g' /lib/systemd/system/hostapd.service
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
