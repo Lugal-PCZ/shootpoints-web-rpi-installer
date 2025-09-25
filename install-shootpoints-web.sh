@@ -11,7 +11,7 @@ fi
 # Create a local WiFi network named "shootpoints"
 sudo raspi-config nonint do_wifi_country US
 sudo apt-get update
-sudo apt-get install -y hostapd dnsmasq
+sudo apt-get install -y ifupdown hostapd dnsmasq
 
 echo 'cat << EOF > /etc/hostapd/hostapd.conf
 country_code=US
@@ -31,7 +31,6 @@ sudo sed -i -e 's/#DAEMON_CONF=""/DAEMON_CONF="\/etc\/hostapd\/hostapd\.conf"/g'
 
 echo 'cat << EOF >> /etc/dhcpcd.conf
 interface eth0
-static domain_name_servers=1.1.1.1 1.0.0.1
 
 interface wlan0
 static ip_address=192.168.111.1
@@ -44,7 +43,6 @@ interface=wlan0
 domain-needed
 bogus-priv
 dhcp-range=192.168.111.100,192.168.111.200,48h
-no-dhcp-interface=
 server=8.8.8.8
 no-hosts
 addn-hosts=/etc/dnsmasq.hosts
@@ -52,12 +50,11 @@ EOF' | sudo -s
 
 echo 'echo '192.168.111.1 shootpoints' > /etc/dnsmasq.hosts' | sudo -s
 
-echo 'cat << EOF > /etc/network/interfaces
+echo 'cat << EOF > /etc/network/interfaces.d/wlan0
 auto wlan0
 iface wlan0 inet static
   address 192.168.111.1
   netmask 255.255.255.0
-  gateway 192.168.111.1
   broadcast 192.168.111.255
   dns-nameservers 192.168.111.1
 EOF' | sudo -s
